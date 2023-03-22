@@ -15,18 +15,19 @@ object ConsumerCredentialManager {
     private val store = ConsumerCredentialStore(secretKeyAlias, folderPath, pwdArray, keyStoreName, credentialFilePath)
     private lateinit var credentialsPanel : ConsumerCredentialsPanel
 
-    init {
-        System.setProperty("java.awt.headless","false")
-        if (!java.awt.GraphicsEnvironment.isHeadless()) {
-            credentialsPanel = ConsumerCredentialsPanel(store)
-        } else {
-            println("Cannot instantiate credentials panel, current graphics environment does not support it!")
-        }
-    }
-
     fun showPanel() {
-        if (ConsumerCredentialManager::credentialsPanel.isInitialized && !credentialsPanel.isVisible)
-            credentialsPanel.showCredentialPanel()
+        if (!::credentialsPanel.isInitialized) {
+            System.setProperty("java.awt.headless","false")
+            if (!java.awt.GraphicsEnvironment.isHeadless()) {
+                credentialsPanel = ConsumerCredentialsPanel(store)
+            } else {
+                println("Cannot instantiate credentials panel, current graphics environment does not support it!")
+                return
+            }
+        } else {
+            if(!credentialsPanel.isVisible)
+                credentialsPanel.showCredentialPanel()
+        }
     }
 
     fun saveCredentialsFromArgument(usrName: String, pwd: String, url: String, usrName2: String, pwd2: String, url2: String) {

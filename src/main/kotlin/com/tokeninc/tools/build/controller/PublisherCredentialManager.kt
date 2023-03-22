@@ -15,18 +15,19 @@ object PublisherCredentialManager {
     private val store = PublisherCredentialStore(secretKeyAlias, folderPath, pwdArray, keyStoreName, credentialFilePath)
     private lateinit var credentialsPanel: PublisherCredentialsPanel
 
-    init {
-        System.setProperty("java.awt.headless","false")
-        if (!java.awt.GraphicsEnvironment.isHeadless()) {
-            credentialsPanel = PublisherCredentialsPanel(store)
-        } else {
-            println("Cannot instantiate credentials panel, current graphics environment does not support it!")
-        }
-    }
-
     fun showPanel() {
-        if (PublisherCredentialManager::credentialsPanel.isInitialized && !credentialsPanel.isVisible)
-            credentialsPanel.showCredentialPanel()
+        if (!PublisherCredentialManager::credentialsPanel.isInitialized) {
+            System.setProperty("java.awt.headless","false")
+            if (!java.awt.GraphicsEnvironment.isHeadless()) {
+                credentialsPanel = PublisherCredentialsPanel(store)
+            } else {
+                println("Cannot instantiate credentials panel, current graphics environment does not support it!")
+                return
+            }
+        } else {
+            if(!credentialsPanel.isVisible)
+                credentialsPanel.showCredentialPanel()
+        }
     }
 
     fun saveCredentialsFromArgument(usrName: String, pwd: String, url: String) {
