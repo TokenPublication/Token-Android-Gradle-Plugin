@@ -56,15 +56,15 @@ gradlePlugin {
     plugins {
         create("consumer") {
             id = "com.tokeninc.tools.build.consumer"
-            implementationClass = "com.tokeninc.tools.build.consumer.ConsumerPlugin"
+            implementationClass = "com.tokeninc.tools.build.plugin.consumer.ConsumerPlugin"
         }
         create("publisher") {
             id = "com.tokeninc.tools.build.publisher"
-            implementationClass = "com.tokeninc.tools.build.publisher.PublisherPlugin"
+            implementationClass = "com.tokeninc.tools.build.plugin.publisher.PublisherPlugin"
         }
         create("settings") {
             id = "com.tokeninc.tools.build.settings"
-            implementationClass = "com.tokeninc.tools.build.settings.SettingsPlugin"
+            implementationClass = "com.tokeninc.tools.build.plugin.settings.SettingsPlugin"
         }
     }
 }
