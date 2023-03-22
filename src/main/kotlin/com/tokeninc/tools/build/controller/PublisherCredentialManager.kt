@@ -24,10 +24,9 @@ object PublisherCredentialManager {
                 println("Cannot instantiate credentials panel, current graphics environment does not support it!")
                 return
             }
-        } else {
-            if(!credentialsPanel.isVisible)
-                credentialsPanel.showCredentialPanel()
         }
+        if(!credentialsPanel.isVisible)
+            credentialsPanel.showCredentialPanel()
     }
 
     fun saveCredentialsFromArgument(usrName: String, pwd: String, url: String) {
