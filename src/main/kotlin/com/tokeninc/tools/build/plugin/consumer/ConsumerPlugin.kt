@@ -91,7 +91,7 @@ class ConsumerPlugin : Plugin<Project> {
                 }
             }
         } else {
-            PublisherCredentialManager.showPanel()
+            ConsumerCredentialManager.showPanel()
         }
     }
 

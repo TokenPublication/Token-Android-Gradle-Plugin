@@ -16,6 +16,7 @@ object PublisherCredentialManager {
     private lateinit var credentialsPanel: PublisherCredentialsPanel
 
     init {
+        System.setProperty("java.awt.headless","false")
         if (!java.awt.GraphicsEnvironment.isHeadless()) {
             credentialsPanel = PublisherCredentialsPanel(store)
         } else {

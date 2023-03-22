@@ -16,6 +16,7 @@ object ConsumerCredentialManager {
     private lateinit var credentialsPanel : ConsumerCredentialsPanel
 
     init {
+        System.setProperty("java.awt.headless","false")
         if (!java.awt.GraphicsEnvironment.isHeadless()) {
             credentialsPanel = ConsumerCredentialsPanel(store)
         } else {
