@@ -1,21 +1,21 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>com.tokeninc.tools.build</id>
+    <id>com.tokeninc.tools</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>Token Android IDE Gradle Tool</name>
+    <name>Tokeninc Gradle Build Tools</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="info@tokeninc.com" url="https://www.tokeninc.com">tokeninc</vendor>
+    <vendor email="support@tokeninc.com" url="https://www.tokeninc.com">tokeninc</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Token Fintech<br>
-    <em>Android IDE Gradle Tool for Token Fintech</em>
+    Token Financial Technologies<br>
+    <em>Gradle Plugin by Tokeninc to Configure Maven Repositories</em>
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -25,6 +25,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+
 
     </extensions>
 </idea-plugin>
