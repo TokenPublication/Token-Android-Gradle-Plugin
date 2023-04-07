@@ -13,7 +13,7 @@ class CredentialsPanelTest {
         val userPath: String = System.getProperty("user.home")
         val secretKeyAlias = "ConsumeMavenCredentialKey"
         val folderPath = userPath + File.separator + ".gradle" + File.separator + "tokeninc" + File.separator + "consume"
-        val pwdArray = folderPath.toCharArray()
+        //val pwdArray = folderPath.toCharArray()
         val keyStoreName = folderPath + File.separator + "ConsumeMavenHelperKeyStore.jks"
         val credentialFilePath = folderPath + File.separator + "consumerCredentials"
         val latch = CountDownLatch(1)

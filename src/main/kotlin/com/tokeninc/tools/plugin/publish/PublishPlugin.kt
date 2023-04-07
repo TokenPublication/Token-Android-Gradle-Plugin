@@ -132,6 +132,7 @@ class PublishPlugin : Plugin<Project> {
                             publication.groupId = packageGroupId
                             publication.artifactId = packageArtifactId
                             publication.version = "$packageAppVersion-SNAPSHOT"
+                            publication.from(target.components.findByName("release"))
                         }
                     }
                     publishing.repositories { repos ->
