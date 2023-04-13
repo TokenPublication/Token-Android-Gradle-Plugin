@@ -122,6 +122,10 @@ class CredentialStore (private val secretKeyAlias: String,
         }
     }
 
+    fun removeAllCredentials() {
+        FileOutputStream(credentialFilePath).close()
+    }
+
     data class Credential(private val userName: String,private val pwd:String, private val url:String){
         fun getUserName() = userName
         fun getPwd() = pwd
