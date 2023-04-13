@@ -7,9 +7,9 @@ import java.awt.FlowLayout
 import javax.swing.*
 
 
-class CredentialsPanel(private val store: CredentialStore,private val mod:String) : JFrame()  {
+class CredentialsPanel(private val store: CredentialStore, private val mod: String) : JFrame()  {
     private val addButton  = JButton("Add")
-    private val removeButton  = JButton("Remove")
+    private val removeButton  = JButton("Remove All")
     private val userNameLabel = JLabel("Username")
     private val urlLabel = JLabel("URL")
     private val pwLabel = JLabel("Password")
@@ -55,7 +55,7 @@ class CredentialsPanel(private val store: CredentialStore,private val mod:String
         pwPanel.add(pwLabel)
         pwPanel.add(pwField)
         buttonPanel.add(addButton)
-        //buttonPanel.add(removeButton)//TODO:Implement remove functionality
+        buttonPanel.add(removeButton)
         buttonPanel.preferredSize = Dimension(500,30)
         contentPane.add(panel)
         contentPane.add(urlPanel)
@@ -79,7 +79,20 @@ class CredentialsPanel(private val store: CredentialStore,private val mod:String
             validateCredentials()
 
         }
+
+        removeButton.addActionListener {
+            removeAllCredentials()
+        }
     }
+
+    private fun removeAllCredentials() {
+        store.removeAllCredentials()
+
+        model.clear()
+        revalidate()
+        repaint()
+    }
+
     private fun reloadCredentials(){
         val credentialList = store.getCredentials()
         model.clear()
@@ -95,6 +108,7 @@ class CredentialsPanel(private val store: CredentialStore,private val mod:String
             Thread {
                 val result = CredentialUtil.isCredentialValid(userNameField.text, pwField.password, urlField.text)
                 if (result == 200 || result == 403) {
+                    addButton.text = "Add"
                     store.saveCredentials(userNameField.text,String(pwField.password),urlField.text)
                     reloadCredentials()
                 } else {

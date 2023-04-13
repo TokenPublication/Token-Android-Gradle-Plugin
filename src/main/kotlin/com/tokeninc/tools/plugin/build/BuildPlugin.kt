@@ -14,8 +14,10 @@ import java.net.URI
 import org.gradle.api.initialization.Settings
 import org.gradle.api.initialization.resolve.RepositoriesMode
 import org.gradle.api.internal.GradleInternal
+import org.slf4j.LoggerFactory
 
 
+@Suppress("UnstableApiUsage")
 class BuildPlugin : Plugin<Project> {
 
     private val Project.settings: Settings
@@ -23,12 +25,14 @@ class BuildPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
 
+        val logger = LoggerFactory.getLogger("token-logger")
+
         target.tasks.register("modifyConsumerCredentials") {
             it.group = "tokeninc"
             it.description = "Shows the Java GUI to modify the consumer credentials"
             it.doLast {
                 ConsumerCredentialManager.showPanel()
-                println("modifying consumer credentials...")
+                logger.info("modifying consumer credentials...")
             }
         }
 
@@ -38,10 +42,10 @@ class BuildPlugin : Plugin<Project> {
             }
         }
 
-        println("Adding Token Maven Repositories to all projects in build.gradle")
+        logger.info("Adding Token Maven Repositories to all projects in build.gradle")
 
         if (hasMinimumCredentialArguments(target.properties)) {
-            println("Detected valid credential arguments")
+            logger.info("Detected valid credential arguments")
 
             var credentialIndex = 1
             while(hasCredentialArguments(target.properties, credentialIndex)) {
@@ -51,7 +55,7 @@ class BuildPlugin : Plugin<Project> {
                 credentialIndex++
 
                 target.allprojects { project ->
-                    println("Configuring " + project.name)
+                    logger.info("Configuring " + project.name)
                     project.repositories.maven { repo ->
                         repo.url = URI(repoUrl)
                         repo.credentials {
@@ -68,12 +72,12 @@ class BuildPlugin : Plugin<Project> {
                 }
             }
         } else if (ConsumerCredentialManager.checkCredentials()) {
-            println("Found saved credentials")
+            logger.info("Found saved credentials")
 
             for(credential in ConsumerCredentialManager.getCredentials()){
                 target.allprojects { project ->
                     project.beforeEvaluate {
-                        println("Configuring " + project.name + " usr: " + credential.getUserName() + " url: " + credential.getUrl())
+                        logger.info("Configuring " + project.name + " usr: " + credential.getUserName() + " url: " + credential.getUrl())
                         project.repositories.google()
                         project.repositories.maven { repo ->
                             repo.url = URI(credential.getUrl())

@@ -11,14 +11,17 @@ import com.tokeninc.tools.controller.ConsumerCredentialManager
 import com.tokeninc.tools.utils.CredentialUtil
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
+import org.slf4j.LoggerFactory
 import java.net.URI
 
+@Suppress("UnstableApiUsage")
 class SettingsPlugin: Plugin<Settings> {
     override fun apply(target: Settings) {
-        println("Adding Token Maven Repositories in settings.gradle")
+        val logger = LoggerFactory.getLogger("token-logger")
+        logger.info("Adding Token Maven Repositories in settings.gradle")
 
         if (hasMinimumCredentialArguments(target.startParameter.projectProperties)) {
-            println("Detected valid credential arguments")
+            logger.info("Detected valid credential arguments")
 
             var credentialIndex = 1
             while(hasCredentialArguments(target.startParameter.projectProperties, credentialIndex)) {
@@ -47,7 +50,7 @@ class SettingsPlugin: Plugin<Settings> {
             }
 
         } else if (ConsumerCredentialManager.checkCredentials()){
-            println("Found saved credentials")
+            logger.info("Found saved credentials")
             for(credential in ConsumerCredentialManager.getCredentials()){
                 target.dependencyResolutionManagement { management ->
                     management.repositories { config ->
@@ -63,6 +66,7 @@ class SettingsPlugin: Plugin<Settings> {
             }
 
         } else {
+            logger.info("Excepting user input on the Java GUI")
             ConsumerCredentialManager.showPanel()
         }
     }

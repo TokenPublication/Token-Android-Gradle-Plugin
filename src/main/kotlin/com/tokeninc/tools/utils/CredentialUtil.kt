@@ -6,13 +6,15 @@
 
 package com.tokeninc.tools.utils
 
+import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.net.*
 
 object CredentialUtil {
 
 
-    public fun isCredentialValid(usr: String, pwd: CharArray, urlPath: String): Int {
+    fun isCredentialValid(usr: String, pwd: CharArray, urlPath: String): Int {
+        val logger = LoggerFactory.getLogger("token-logger")
         try {
             val url = URL(urlPath)
             val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
@@ -24,25 +26,25 @@ object CredentialUtil {
             })
             connection.connectTimeout = 3000
             connection.connect()
-            println("ping result: ${connection.responseCode}")
+            logger.info("ping result: ${connection.responseCode}")
             return connection.responseCode
         } catch (e: Exception) {
             return when (e) {
                 is MalformedURLException -> {
-                    println("Invalid URL ${e.message}")
+                    logger.info("Invalid URL ${e.message}")
                     1
                 }
                 is IOException -> {
-                    println("IO Exception reading data ${e.message}")
+                    logger.info("IO Exception reading data ${e.message}")
                     2
                 }
                 is SecurityException -> {
-                    println("Security Exception, Missing permissions ${e.message}")
+                    logger.info("Security Exception, Missing permissions ${e.message}")
                     e.printStackTrace()
                     3
                 }
                 else -> {
-                    println("Unknown Error")
+                    logger.info("Unknown Error")
                     4
                 }
             }
